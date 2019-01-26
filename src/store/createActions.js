@@ -2,10 +2,9 @@ import {
   INPUT_VALUE_CHANGE,
   ADD_ITEM,
   DELETE_ITEM,
-  GET_INIT_DATA
+  GET_INIT_DATA,
+  GET_INIT_LIST
 } from '../store/actionTypes'
-
-import axios from 'axios'
 
 const getInputValueChangeAction = (value) => ({
   type: INPUT_VALUE_CHANGE,
@@ -26,14 +25,9 @@ const getInitDataAction = (value) => ({
   value
 })
 
-const getInitListAction = () => {
-  return (dispatch) => {
-    axios.get('/test.json').then((res) => {
-      const action = getInitDataAction(res.data.data)
-      dispatch(action)
-    })
-  }
-}
+const getInitListAction = () => ({
+  type: GET_INIT_LIST
+})
 
 export {
   getInputValueChangeAction,
