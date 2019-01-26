@@ -1,48 +1,74 @@
 import React, { Component } from 'react';
-import store from '../store';
-import { getInputChageAction, getAddItemAction, getDeleteItemAction,getInitAction,getInitTodoList} from '../store/createActions'
-import TodoListUI from './TodoListUI'
+import { connect,} from 'react-redux'
+
 import 'antd/dist/antd.css';
+import { Input, Button,List  } from 'antd';
 
-class TodoList extends Component {
-  constructor(props) {
-    super(props);
-    this.state = store.getState()
-    store.subscribe(() => { this.setState(store.getState())})
-     this.handleInputValueChange = this.handleInputValueChange.bind(this)
-     this.handleAddItem = this.handleAddItem.bind(this)
-     this.handleDeleteItem = this.handleDeleteItem.bind(this)
+import {
+  getInputValueChangeAction, 
+  getAddItemAction,
+  getDeleteItemAction,
+  getInitListAction
+} from '../store/createActions'
+
+
+class TodoList extends Component{
+
+  componentDidMount(){
+    // get init data
+    this.props.getInitList()
   }
+  
+  render () {
+    const {inputValue,list ,inputValueChange, handleAddItem, handleDeleteItem} = this.props
+    return (
+      <div style={{marginTop:50, marginLeft:50}}>
+        <Input 
+          placeholder="Todo Info" 
+          style={{width:400, marginRight:10}}
+          value={inputValue}
+          onChange={inputValueChange}
+        />
+        <Button type="primary" onClick={handleAddItem}>提交</Button>
 
-  handleInputValueChange(e) {
-    const action = getInputChageAction(e.target.value)
-    store.dispatch(action)
-  }
-
-  handleAddItem() {
-    const action = getAddItemAction()
-    store.dispatch(action)
-  }
-
-  handleDeleteItem(index) {
-    const action = getDeleteItemAction(index)
-    store.dispatch(action)
-  }
-
-  render() { 
-    return <TodoListUI 
-    inputValue={this.state.inputValue}
-    handleInputValueChange={this.handleInputValueChange}
-    handleAddItem = {this.handleAddItem}
-    list={this.state.list}
-    handleDeleteItem = {this.handleDeleteItem}
-    />
-  }
-
-  componentDidMount() {
-    const action = getInitTodoList();
-    store.dispatch(action);
+        <List
+          style={{width:400,marginTop:10}}
+          bordered
+          dataSource={list}
+          renderItem={(item,index) => (<List.Item onClick={() => {handleDeleteItem(index)}}>{item}</List.Item>)}
+        />
+      </div>
+      
+    )
   }
 }
- 
-export default TodoList;
+
+const mapStateToProps = (state) => {
+  return {
+    inputValue: state.inputValue,
+    list: state.list
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    inputValueChange(e) {
+      const action = getInputValueChangeAction(e.target.value)
+      dispatch(action)
+    },
+    handleAddItem() {
+      const action = getAddItemAction()
+      dispatch(action)
+    },
+    handleDeleteItem(index) {
+      const action = getDeleteItemAction(index)
+      dispatch(action)
+    },
+    getInitList() {
+      const action = getInitListAction()
+      dispatch(action)
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(TodoList)

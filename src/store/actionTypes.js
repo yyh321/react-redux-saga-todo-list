@@ -1,13 +1,12 @@
- const INPUT_VALUE_CHANGE = 'input_value_change'
- const ADD_ITEM = 'add_item'
- const DELETE_ITEM = 'delete_item'
- const INIT_DATA = 'init_data'
- const INIT_TODO_LIST = 'init_todo_list'
+const INPUT_VALUE_CHANGE = 'input_value_change'
+const ADD_ITEM = 'add_item'
+const DELETE_ITEM = 'delete_item'
+const GET_INIT_DATA = 'get_init_data'
 
- export {
-   INPUT_VALUE_CHANGE,
-   ADD_ITEM,
-   DELETE_ITEM,
-   INIT_DATA,
-   INIT_TODO_LIST
- }
+
+export {
+  INPUT_VALUE_CHANGE,
+  ADD_ITEM,
+  DELETE_ITEM,
+  GET_INIT_DATA
+}

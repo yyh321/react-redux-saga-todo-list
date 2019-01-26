@@ -2,11 +2,12 @@ import {
   INPUT_VALUE_CHANGE,
   ADD_ITEM,
   DELETE_ITEM,
-  INIT_DATA,
-  INIT_TODO_LIST
-} from './actionTypes'
+  GET_INIT_DATA
+} from '../store/actionTypes'
 
-const getInputChageAction = (value) => ({
+import axios from 'axios'
+
+const getInputValueChangeAction = (value) => ({
   type: INPUT_VALUE_CHANGE,
   value
 })
@@ -20,20 +21,24 @@ const getDeleteItemAction = (index) => ({
   index
 })
 
-const getInitAction = (value) => ({
-  type: INIT_DATA,
+const getInitDataAction = (value) => ({
+  type: GET_INIT_DATA,
   value
 })
 
-const getInitTodoList = () => ({
-  type: INIT_TODO_LIST
-})
-
+const getInitListAction = () => {
+  return (dispatch) => {
+    axios.get('/test.json').then((res) => {
+      const action = getInitDataAction(res.data.data)
+      dispatch(action)
+    })
+  }
+}
 
 export {
-  getInputChageAction,
+  getInputValueChangeAction,
   getAddItemAction,
   getDeleteItemAction,
-  getInitAction,
-  getInitTodoList
+  getInitDataAction,
+  getInitListAction
 }
