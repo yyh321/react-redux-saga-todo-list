@@ -2,9 +2,9 @@ import {
   INPUT_VALUE_CHANGE,
   ADD_ITEM,
   DELETE_ITEM,
-  INIT_DATA
+  INIT_DATA,
+  INIT_TODO_LIST
 } from './actionTypes'
-import axios from 'axios'
 
 const getInputChageAction = (value) => ({
   type: INPUT_VALUE_CHANGE,
@@ -25,14 +25,9 @@ const getInitAction = (value) => ({
   value
 })
 
-const getTodoList = () => {
-  return (dispatch) => {
-    axios.get('/test.json').then((res) => {
-      const action = getInitAction(res.data.data)
-      dispatch(action)
-    })
-  }
-}
+const getInitTodoList = () => ({
+  type: INIT_TODO_LIST
+})
 
 
 export {
@@ -40,5 +35,5 @@ export {
   getAddItemAction,
   getDeleteItemAction,
   getInitAction,
-  getTodoList
+  getInitTodoList
 }
